@@ -97,8 +97,7 @@ if (A[m1] < A[m2]) return m1;
 
 
  
-int 
-RMQ (int *ST, int A[], int n, int l, int r) 
+int RMQ (int *ST, int A[], int n, int l, int r) 
 {
  
     // Check for erroneous input values

@@ -27,6 +27,23 @@ int getAndUtil(int *st, int ss, int se, int qs, int qe, int si, int x)
 	return getAndUtil(st, ss, mid, qs, qe, 2*si+1,x) &
 		getAndUtil(st, mid+1, se, qs, qe, 2*si+2,x);
 }
+void updateValueUtil(int *st, int ss, int se, int i, int diff, int si) 
+{ 
+    // Base Case: If the input index lies outside the range of 
+    // this segment 
+    if (i < ss || i > se) 
+        return; 
+  
+    // If the input index is in range of this node, then update 
+    // the value of the node and its children 
+    st[si] = st[si] & diff; 
+    if (se != ss) 
+    { 
+        int mid = getMid(ss, se); 
+        updateValueUtil(st, ss, mid, i, diff, 2*si + 1); 
+        updateValueUtil(st, mid+1, se, i, diff, 2*si + 2); 
+    } 
+} 
 int power2(int x)
 {
     return pow(2,ceil(log2(x)));
@@ -51,7 +68,6 @@ int getSum(int *st, int n, int qs, int qe,int x)
 		cout<<"Invalid Input";
 		return -1;
 	}
-
 	return getAndUtil(st, 0, n-1, qs, qe, 0, x );
 }
 int main()
@@ -61,13 +77,12 @@ int main()
 	int a[q];
 	for(int i=0;i<q;i++)
 	{
-		int g;
+		int g; 
 		cin>>g;
 		a[i]=g;
 	}
-    
     int n=power2(q);//n is 8
-    int tree[2 * n-1];// tree with number of elements is 15 [0....14]
+    int tree[2*n-1];// tree with number of elements is 15 [0....14]
     for(int i=0;i<2*n-1;i++)
     {
         tree[i]=power2(*max_element(a, a+ q))-1; //all number of elements are intialised is 31
